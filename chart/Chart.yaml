@@ -34,7 +34,7 @@ keywords:
   - scheduler
 dependencies:
   - name: postgresql
-    version: 10.5.3
+    version: 11.6.0
     # In order to react to a sudden, totally breaking change by bitnami in
     # https://github.com/bitnami/charts/issues/10539
     # we need to use the version of index from just before the change. However we hope
