@@ -59,7 +59,7 @@ pod_template_file
 ~~~~~~~~~~~~~~~~~
 
 To customize the pod used for k8s executor worker processes, you may create a pod template file. You must provide
-the path to the template file in the ``pod_template_file`` option in the ``kubernetes`` section of ``airflow.cfg``.
+the path to the template file in the ``pod_template_file`` option in the ``kubernetes_executor`` section of ``airflow.cfg``.
 
 Airflow has two strict requirements for pod template files: base image and pod name.
 
@@ -166,18 +166,14 @@ Here is an example of a task with both features:
 
     with DAG(
         dag_id="example_pod_template_file",
-        schedule_interval=None,
+        schedule=None,
         start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
         catchup=False,
         tags=["example3"],
     ) as dag:
         executor_config_template = {
-            "pod_template_file": os.path.join(
-                AIRFLOW_HOME, "pod_templates/basic_template.yaml"
-            ),
-            "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(labels={"release": "stable"})
-            ),
+            "pod_template_file": os.path.join(AIRFLOW_HOME, "pod_templates/basic_template.yaml"),
+            "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"})),
         }
 
         @task(executor_config=executor_config_template)

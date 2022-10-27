@@ -15,7 +15,6 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-
 """current schema
 
 Revision ID: e3a246e0dc1
@@ -23,12 +22,12 @@ Revises:
 Create Date: 2015-08-18 16:35:00.883495
 
 """
+from __future__ import annotations
 
 import sqlalchemy as sa
 from alembic import op
-from sqlalchemy import func
+from sqlalchemy import func, inspect
 
-from airflow.compat.sqlalchemy import inspect
 from airflow.migrations.db_types import StringID
 
 # revision identifiers, used by Alembic.
@@ -214,7 +213,7 @@ def upgrade():
             sa.Column('id', sa.Integer(), nullable=False),
             sa.Column('key', StringID(length=512), nullable=True),
             sa.Column('value', sa.PickleType(), nullable=True),
-            sa.Column('timestamp', sa.DateTime(), default=func.now(), nullable=False),
+            sa.Column('timestamp', sa.DateTime(), default=func.now, nullable=False),
             sa.Column('execution_date', sa.DateTime(), nullable=False),
             sa.Column('task_id', StringID(), nullable=False),
             sa.Column('dag_id', StringID(), nullable=False),
